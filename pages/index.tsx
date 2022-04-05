@@ -3,6 +3,9 @@ import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 
+// UI components
+import Rating from '@mui/material/Rating';
+
 //types
 import { ICourse } from '../types/index';
 
@@ -59,6 +62,15 @@ const Home: NextPage<Courses> = (props: Courses) => {
           {course.feedbacks.reduce((a, b) => a + b.rating, 0) /
             course.feedbacks.length}
         </p>
+        <Rating
+          name="read-only"
+          value={
+            course.feedbacks.reduce((a, b) => a + b.rating, 0) /
+            course.feedbacks.length
+          }
+          readOnly
+          precision={0.5}
+        />
       </div>
     </div>
   ));
