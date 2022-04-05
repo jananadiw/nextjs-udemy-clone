@@ -1,9 +1,68 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import Image from 'next/image';
+import styles from '../styles/Home.module.css';
 
-const Home: NextPage = () => {
+//types
+import { ICourse } from '../types/index';
+
+// graphql
+import { gql, useQuery } from '@apollo/client';
+import client from '../lib/apollo-client';
+
+type Courses = {
+  courses: ICourse[];
+};
+
+export async function getStaticProps() {
+  const { data } = await client.query({
+    query: gql`
+      query CourseList {
+        developer_test_course {
+          id
+          cover_url
+          price
+          name
+          short_description
+          who_is_for
+          long_description
+          instructors {
+            name
+          }
+          feedbacks {
+            rating
+          }
+        }
+      }
+    `,
+  });
+  console.log('props', data.developer_test_course);
+  return {
+    props: {
+      courses: data.developer_test_course,
+    },
+  };
+}
+
+const Home: NextPage<Courses> = (props: Courses) => {
+  const courses = props.courses.map((course) => (
+    <div key={course.id}>
+      <h3>{course.name}</h3>
+      <Image src={course.cover_url} alt="cover" width="300" height="200" />
+      <div>
+        <p>{course.short_description}</p>
+        {/* <p>{course.long_description}</p> */}
+        <p>{course.price}</p>
+        <p>{course.instructors[0].name}</p>
+        <p>({course.feedbacks.length})</p>
+        <p>
+          {course.feedbacks.reduce((a, b) => a + b.rating, 0) /
+            course.feedbacks.length}
+        </p>
+      </div>
+    </div>
+  ));
+
   return (
     <div className={styles.container}>
       <Head>
@@ -16,41 +75,7 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        <div className={styles.grid}>{courses}</div>
       </main>
 
       <footer className={styles.footer}>
@@ -66,7 +91,7 @@ const Home: NextPage = () => {
         </a>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
