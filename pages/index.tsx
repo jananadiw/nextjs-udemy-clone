@@ -3,11 +3,11 @@ import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 
-// UI components
-import Rating from '@mui/material/Rating';
-
-//types
+// Types
 import { ICourse } from '../types/index';
+
+// Components
+import CourseList from '../components/courseList';
 
 // graphql
 import { gql, useQuery } from '@apollo/client';
@@ -48,33 +48,6 @@ export async function getStaticProps() {
 }
 
 const Home: NextPage<Courses> = (props: Courses) => {
-  const courses = props.courses.map((course) => (
-    <div key={course.id}>
-      <h3>{course.name}</h3>
-      <Image src={course.cover_url} alt="cover" width="300" height="200" />
-      <div>
-        <p>{course.short_description}</p>
-        {/* <p>{course.long_description}</p> */}
-        <p>{course.price}</p>
-        <p>{course.instructors[0].name}</p>
-        <p>({course.feedbacks.length})</p>
-        <p>
-          {course.feedbacks.reduce((a, b) => a + b.rating, 0) /
-            course.feedbacks.length}
-        </p>
-        <Rating
-          name="read-only"
-          value={
-            course.feedbacks.reduce((a, b) => a + b.rating, 0) /
-            course.feedbacks.length
-          }
-          readOnly
-          precision={0.5}
-        />
-      </div>
-    </div>
-  ));
-
   return (
     <div className={styles.container}>
       <Head>
@@ -84,10 +57,11 @@ const Home: NextPage<Courses> = (props: Courses) => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-        <div className={styles.grid}>{courses}</div>
+        <h1 className={styles.title}>Welcome to our courses</h1>
+        <hr />
+        <div className={styles.grid}>
+          <CourseList courseList={props.courses} />
+        </div>
       </main>
 
       <footer className={styles.footer}>
