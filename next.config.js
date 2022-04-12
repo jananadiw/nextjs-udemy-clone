@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+
+const withSass = require('@zeit/next-sass');
 const nextConfig = {
   reactStrictMode: true,
   images: {
@@ -6,4 +8,7 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+(module.exports = nextConfig),
+  withSass({
+    sassLoaderOptions: {},
+  });
