@@ -1,7 +1,6 @@
 # Udemy Clone Project
 
-> Udemy clone project with NextJs, Graphql and MUI
-
+> Udemy clone project with NextJs, Graphql and MUI 
 
 ## Build Setup
 
@@ -37,3 +36,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ├── store // vuex store
 
 ```
+ https://www.notion.so/jananadiw/Udemy-Clone-Project-NextJs-7431887349924efbb235a057f6a7ac86
