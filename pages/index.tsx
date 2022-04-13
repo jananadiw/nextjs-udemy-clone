@@ -9,8 +9,10 @@ import { ICourse } from '../types/index';
 // Components
 import CourseList from '../components/courseList';
 
-// graphql
-import { gql, useQuery } from '@apollo/client';
+// Queries
+import { getCourseList } from '../graphql/queries/getCourseList.query';
+
+// Graphql
 import client from '../lib/apollo-client';
 
 type Courses = {
@@ -18,28 +20,7 @@ type Courses = {
 };
 
 export async function getStaticProps() {
-  const { data } = await client.query({
-    query: gql`
-      query CourseList {
-        developer_test_course {
-          id
-          cover_url
-          price
-          name
-          short_description
-          who_is_for
-          long_description
-          instructors {
-            name
-          }
-          feedbacks {
-            rating
-          }
-        }
-      }
-    `,
-  });
-  console.log('props', data.developer_test_course);
+  const { data } = await client.query({ query: getCourseList });
   return {
     props: {
       courses: data.developer_test_course,
@@ -57,7 +38,7 @@ const Home: NextPage<Courses> = (props: Courses) => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to our courses</h1>
+        <h3 className={styles.title}>Welcome to cloned courses</h3>
         <hr />
         <div className={styles.grid}>
           <CourseList courseList={props.courses} />

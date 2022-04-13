@@ -7,6 +7,9 @@ export interface ICourse {
   short_description: string;
   requirements: string;
   feedbacks: IFeedback[];
+  long_description: string;
+  who_is_for: string;
+  course_contents: ICourseContents[];
 }
 
 export interface IInstructor {
@@ -15,4 +18,16 @@ export interface IInstructor {
 
 export interface IFeedback {
   rating: number;
+}
+
+export interface ICourseContents {
+  id: number;
+  name: string;
+  course_id: string;
+  course_content_lectures: ICourseContentLecture[];
+}
+
+export interface ICourseContentLecture {
+  name: string;
+  duration: number;
 }
