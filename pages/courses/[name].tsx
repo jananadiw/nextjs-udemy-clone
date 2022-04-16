@@ -51,11 +51,6 @@ export async function getStaticProps({ params }: any) {
 }
 
 const CourseDetails = (props: CoursesDetail) => {
-  // TODO change courseURI to unique name.
-  const router = useRouter();
-
-  const { name } = router.query;
-
   // TODO  Add styling and remaining data.
   return (
     <div className={styles.grid}>
