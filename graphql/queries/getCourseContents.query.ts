@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const getCourseContents = gql`
-  query CourseDetails($id: uuid!) {
-    developer_test_course(where: { id: { _eq: $id } }) {
+  query CourseDetails($name: String) {
+    developer_test_course(where: { name: { _eq: $name } }) {
       id
       cover_url
       name

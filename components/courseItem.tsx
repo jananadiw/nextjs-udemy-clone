@@ -14,13 +14,12 @@ type Props = {
 };
 
 const CourseItem: React.FC<Props> = ({ courseItem }) => {
-  // TODO construct name for the courseURI
-  // const constructSlug = courseItem.name
-  //   .toLowerCase()
-  //   .replace(/\+/g, '-plus')
-  //   .replace(/[^A-Z0-9]/gi, '-');
+  const constructSlug = courseItem.name
+    .toLowerCase()
+    .replace(/\+/g, '-plus')
+    .replace(/[^A-Z0-9]/gi, '-');
 
-  //format price to prefix with $ currency.
+  // format price to prefix with $ currency.
   let formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -31,10 +30,10 @@ const CourseItem: React.FC<Props> = ({ courseItem }) => {
   return (
     <Link
       href={{
-        pathname: '/courses/[id]',
-        query: { id: courseItem.id },
+        pathname: '/courses/[name]',
+        query: { name: courseItem.name },
       }}
-      passHref
+      as={constructSlug}
     >
       <div className={styles.course}>
         <div className={styles.course__image}>

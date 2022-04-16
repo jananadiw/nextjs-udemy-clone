@@ -23,9 +23,11 @@ export async function getStaticPaths() {
 
   const paths = data.developer_test_course.map((course: ICourse) => {
     return {
-      params: { id: course.id },
+      params: { name: course.name },
     };
   });
+
+  console.log('params', paths);
 
   return {
     paths,
@@ -37,7 +39,7 @@ export async function getStaticProps({ params }: any) {
   const { data } = await client.query({
     query: getCourseContents,
     variables: {
-      id: params.id,
+      name: params.name,
     },
   });
 
@@ -50,8 +52,9 @@ export async function getStaticProps({ params }: any) {
 
 const CourseDetails = (props: CoursesDetail) => {
   // TODO change courseURI to unique name.
-  // const router = useRouter();
-  // const { name } = router.query;
+  const router = useRouter();
+
+  const { name } = router.query;
 
   // TODO  Add styling and remaining data.
   return (
