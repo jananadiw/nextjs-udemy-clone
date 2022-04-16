@@ -15,7 +15,7 @@ const CourseList: React.FC<Props> = ({ courseList }) => {
   const courses = courseList.map((course) => (
     <CourseItem key={course.id} courseItem={course} />
   ));
-  return <div className={styles.grid}>{courses}</div>;
+  return <div className={styles.list}>{courses}</div>;
 };
 
 export default CourseList;

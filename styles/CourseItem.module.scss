@@ -1,9 +1,9 @@
 .course {
-  display: grid;
-  grid-template-columns: 320px 1fr;
+  display: flex;
   grid-gap: 8px 16px;
   gap: 8px 16px;
-  padding: 20px 15px;
+  padding: 1.6em 15px 1.6em 15px;
+  border-bottom: 1px solid #d1d7dc;
 
   &__info {
     display: flex;
@@ -17,6 +17,28 @@
 
     &__detail {
       width: 100%;
+
+      .intro {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: normal;
+        font-weight: 300;
+        font-size: 13px;
+      }
+
+      .instructor {
+        font-size: 13px;
+        color: #6a6f73;
+      }
+
+      .rating {
+        display: flex;
+
+        > p {
+          margin: 3px;
+          color: #e3ac07;
+        }
+      }
     }
 
     &__price {
@@ -25,9 +47,22 @@
       font-weight: 700;
       width: 30%;
     }
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   &__image {
-    display: grid;
+    display: block;
+
+    &:hover {
+      cursor: pointer;
+      color: rgba(23, 23, 23, 0.682);
+      transition: opacity linear 100ms;
+    }
+  }
+
+  &:last-child {
+    border-bottom: none;
   }
 }
