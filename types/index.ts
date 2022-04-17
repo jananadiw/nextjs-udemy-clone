@@ -9,6 +9,7 @@ export interface ICourse {
   feedbacks: IFeedback[];
   long_description: string;
   who_is_for: string;
+  updated_at: string;
   course_contents: ICourseContents[];
 }
 

@@ -6,8 +6,8 @@ import styles from '../styles/CourseItem.module.scss';
 // Types
 import { ICourse } from '../types/index';
 
-// UI components
-import Rating from '@mui/material/Rating';
+// components
+import RatingComponent from './rating';
 
 type Props = {
   courseItem: ICourse;
@@ -33,7 +33,7 @@ const CourseItem: React.FC<Props> = ({ courseItem }) => {
         pathname: '/courses/[name]',
         query: { name: courseItem.name },
       }}
-      as={constructSlug}
+      // as={constructSlug}
     >
       <div className={styles.course}>
         <div className={styles.course__image}>
@@ -51,22 +51,7 @@ const CourseItem: React.FC<Props> = ({ courseItem }) => {
             <p className={styles.instructor}>
               {courseItem.instructors[0].name}
             </p>
-            <div className={styles.rating}>
-              <p>
-                {courseItem.feedbacks.reduce((a, b) => a + b.rating, 0) /
-                  courseItem.feedbacks.length}
-              </p>
-              <Rating
-                name="read-only"
-                value={
-                  courseItem.feedbacks.reduce((a, b) => a + b.rating, 0) /
-                  courseItem.feedbacks.length
-                }
-                readOnly
-                precision={0.1}
-                defaultValue={0}
-              />
-            </div>
+            <RatingComponent feedbacks={courseItem.feedbacks} />
           </div>
           <div className={styles.course__info__price}>{formattedPrice}</div>
         </div>

@@ -6,6 +6,14 @@ export const getCourseContents = gql`
       id
       cover_url
       name
+      short_description
+      updated_at
+      feedbacks {
+        rating
+      }
+      instructors {
+        name
+      }
       course_contents {
         id
         name
