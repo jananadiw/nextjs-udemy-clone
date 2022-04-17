@@ -1,11 +1,15 @@
 import * as React from 'react';
+import dayjs from 'dayjs';
 
+//Types
 import { ICourse } from '../../types/index';
 
-import { useRouter } from 'next/router';
-
 // Styles
-import styles from '../../styles/Home.module.scss';
+import styles from '../../styles/CourseDetails.module.scss';
+
+// components
+import RatingComponent from '../../components/rating';
+import AccessTimeFilledTwoToneIcon from '@mui/icons-material/AccessTimeFilledTwoTone';
 
 // Graphql
 import client from '../../lib/apollo-client';
@@ -45,22 +49,39 @@ export async function getStaticProps({ params }: any) {
 
   return {
     props: {
-      courseDetails: data.developer_test_course,
+      courseDetails: { ...data.developer_test_course },
     },
   };
 }
 
 const CourseDetails = (props: CoursesDetail) => {
-  // TODO  Add styling and remaining data.
+  const courseContent = props.courseDetails[0].course_contents;
+  const courseIntro = props.courseDetails[0];
+
   return (
-    <div className={styles.grid}>
-      {props.courseDetails.map((course) =>
-        course.course_contents.map((content) => (
-          <div key={content.id}>
-            <h3>{content.name}</h3>
+    <div className={styles.detail}>
+      <div className={styles.intro}>
+        <div className={styles.intro__textarea}>
+          <h3 className={styles.intro__textarea__title}>{courseIntro.name}</h3>
+          <p className={styles.intro__textarea__description}>
+            {courseIntro.short_description}
+          </p>
+          <div className={styles.intro__textarea__ratings}>
+            <RatingComponent feedbacks={courseIntro.feedbacks} />
+            {`(${courseIntro.feedbacks.length} ratings)`}
           </div>
-        ))
-      )}
+          <div className={styles.intro__textarea__instructors}>
+            {`Created By `}
+            <span>{courseIntro.instructors[0].name}</span>
+          </div>
+          <div className={styles.intro__textarea__updatedAt}>
+            <AccessTimeFilledTwoToneIcon />{' '}
+            {`Last updated at: ${dayjs(courseIntro.updated_at).format(
+              'MM/YYYY'
+            )} `}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
