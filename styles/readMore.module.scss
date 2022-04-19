@@ -1,0 +1,15 @@
+.description {
+  padding: 0.5em 0.5em;
+  margin-bottom: 3.2rem;
+
+  &__text {
+    display: block;
+    width: 100%;
+    font-weight: 300;
+  }
+
+  &__readhide {
+    color: rgb(192, 192, 192);
+    cursor: pointer;
+  }
+}

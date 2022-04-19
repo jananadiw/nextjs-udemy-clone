@@ -32,3 +32,8 @@ export interface ICourseContentLecture {
   name: string;
   duration: number;
 }
+
+export interface IDescription {
+  long_description: string;
+  who_is_for: string;
+}
