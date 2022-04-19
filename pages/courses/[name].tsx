@@ -2,14 +2,16 @@ import * as React from 'react';
 import dayjs from 'dayjs';
 
 //Types
-import { ICourse } from '../../types/index';
+import { ICourse, IDescription } from '../../types/index';
 
 // Styles
 import styles from '../../styles/CourseDetails.module.scss';
 
-// components
+// UI components
 import RatingComponent from '../../components/rating';
+import CustomizedAccordions from '../../components/accordian';
 import AccessTimeFilledTwoToneIcon from '@mui/icons-material/AccessTimeFilledTwoTone';
+import ReadMoreComponent from '../../components/readMore';
 
 // Graphql
 import client from '../../lib/apollo-client';
@@ -30,8 +32,6 @@ export async function getStaticPaths() {
       params: { name: course.name },
     };
   });
-
-  console.log('params', paths);
 
   return {
     paths,
@@ -57,9 +57,25 @@ export async function getStaticProps({ params }: any) {
 const CourseDetails = (props: CoursesDetail) => {
   const courseContent = props.courseDetails[0].course_contents;
   const courseIntro = props.courseDetails[0];
+  const lectures = courseContent
+    .map((content) => content.course_content_lectures)
+    .flat();
+  const lectureDuration = lectures
+    .map((lecture) => lecture.duration)
+    .reduce((acc, duration) => acc + duration, 0);
+
+  const requiredItems = courseIntro.requirements
+    .split(/\s*,\s*(?![^(]*\))/)
+    .map((requirement) => <li key={requirement.toString()}>{requirement}</li>);
+
+  const description: IDescription = {
+    long_description: courseIntro.long_description,
+    who_is_for: courseIntro.who_is_for,
+  };
 
   return (
     <div className={styles.detail}>
+      {/* Intro banner */}
       <div className={styles.intro}>
         <div className={styles.intro__textarea}>
           <h3 className={styles.intro__textarea__title}>{courseIntro.name}</h3>
@@ -81,6 +97,41 @@ const CourseDetails = (props: CoursesDetail) => {
             )} `}
           </div>
         </div>
+      </div>
+
+      {/* Course Curriculum */}
+
+      <div className={styles.content}>
+        <div className={styles.content__curriculum}>
+          <h2>Course content</h2>
+          <div className={styles.content__curriculum__summary}>
+            <div className={styles.content__curriculum__summary__count}>
+              <span>{courseContent.length} Sections &#x2022;</span>
+              <span>{lectures.length} Lectures &#x2022;</span>
+              <span>
+                {Math.floor(lectureDuration / 60)}
+                {'h'} {lectureDuration % 60}
+                {'m'} total length
+              </span>
+            </div>
+          </div>
+
+          {/* Accordion */}
+
+          {courseContent.map((content) => (
+            <CustomizedAccordions courseContent={content} />
+          ))}
+        </div>
+
+        {/* Requirements */}
+
+        <div className={styles.content__requirements}>
+          <h2>Requirements</h2>
+          <ul>{requiredItems}</ul>
+        </div>
+
+        {/* Description */}
+        <ReadMoreComponent description={description} />
       </div>
     </div>
   );

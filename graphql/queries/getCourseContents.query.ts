@@ -7,6 +7,9 @@ export const getCourseContents = gql`
       cover_url
       name
       short_description
+      long_description
+      who_is_for
+      requirements
       updated_at
       feedbacks {
         rating
