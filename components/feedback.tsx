@@ -15,22 +15,24 @@ import {
 } from '@mui/material';
 
 // Types
-import { IFeedback } from '../types/index';
+import { IFeedback, IFeedbackInput } from '../types/index';
 
 // Graphql
 import { addReview } from '../graphql/mutations/addReview.mutation';
 import useMutation from '@apollo/client';
 
 type Props = {
+  // submitReview: any;
   feedbacks: IFeedback[];
   courseId: string;
 };
 
+const reviewInput = {} as IFeedbackInput;
+
 const FeedbackComponent: React.FC<Props> = (props: Props) => {
-  const [value, setValue] = React.useState<number | null>(0);
   const [formState, setFormState] = React.useState({
     user_name: '',
-    rating: setValue,
+    rating: 0 || null,
     content: '',
   });
 
@@ -38,15 +40,22 @@ const FeedbackComponent: React.FC<Props> = (props: Props) => {
   const [addFeedback] = ApolloReactHooks.useMutation(addReview, {
     variables: {
       user_name: formState.user_name,
-      rating: setValue,
+      rating: formState.rating,
       content: formState.content,
+      // reviewInput,
     },
   });
 
   const submitReview = async (event: any) => {
     event.preventDefault();
-    addFeedback();
-    console.log(event.target.value);
+    console.log(formState.user_name, formState.rating, formState.content);
+    await addFeedback({
+      variables: {
+        user_name: event.target.user_name.value,
+        rating: event.target.rating.value,
+        content: event.target.content.value,
+      },
+    });
   };
 
   return (
@@ -57,20 +66,43 @@ const FeedbackComponent: React.FC<Props> = (props: Props) => {
         <p>Rate this course </p>
         <div>
           <Rating
-            name="simple-controlled"
-            value={value}
-            onChange={(event, newValue) => {
-              setValue(newValue);
-            }}
+            name="rating"
+            value={formState.rating}
+            onChange={(e, newValue) =>
+              setFormState({
+                ...formState,
+                rating: newValue,
+              })
+            }
           />
         </div>
         <div>
           <p>Leave a review </p>
-          <TextField fullWidth id="content" value={formState.content} />
+          <TextField
+            fullWidth
+            value={formState.content}
+            name="content"
+            onChange={(e) =>
+              setFormState({
+                ...formState,
+                content: e.target.value,
+              })
+            }
+          />
         </div>
         <div>
           <p> What is your name? </p>
-          <TextField fullWidth id="Name" value={formState.user_name} />
+          <TextField
+            fullWidth
+            value={formState.user_name}
+            name="user_name"
+            onChange={(e) =>
+              setFormState({
+                ...formState,
+                user_name: e.target.value,
+              })
+            }
+          />
         </div>
         <div className={styles.content__submit}>
           <Button variant="contained" type="submit">

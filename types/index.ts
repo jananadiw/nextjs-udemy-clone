@@ -49,7 +49,7 @@ export interface IFeedbackInput {
   content: string;
   // course_id: string;
   created_at: string;
-  rating: number;
+  rating: number | null;
   // updated_at: string;
   user_name: string;
 }
