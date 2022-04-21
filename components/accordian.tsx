@@ -68,7 +68,7 @@ const CustomizedAccordions: React.FC<Props> = ({ courseContent }) => {
           <Typography>{courseContent.name}</Typography>
         </AccordionSummary>
         {courseContent.course_content_lectures.map((lecture) => (
-          <AccordionDetails>
+          <AccordionDetails key={lecture.id}>
             <Typography>{lecture.name}</Typography>
           </AccordionDetails>
         ))}

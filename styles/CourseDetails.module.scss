@@ -100,5 +100,14 @@
         cursor: pointer;
       }
     }
+    &__review {
+      margin-bottom: 1.6em;
+    }
+    &__feedback {
+      margin-bottom: 1.6em;
+    }
+    &__submit {
+      padding: 1.7em 0 1.7em;
+    }
   }
 }
