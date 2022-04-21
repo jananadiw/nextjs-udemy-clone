@@ -27,7 +27,7 @@ type Props = {
 };
 
 const FeedbackComponent: React.FC<Props> = (props: Props) => {
-  const [value, setValue] = React.useState<number | null>(2);
+  const [value, setValue] = React.useState<number | null>(0);
   const [formState, setFormState] = React.useState({
     user_name: '',
     rating: setValue,
@@ -80,7 +80,7 @@ const FeedbackComponent: React.FC<Props> = (props: Props) => {
       </form>
 
       {props.feedbacks.map((feedback: IFeedback) => (
-        <div className={styles.content__feedback}>
+        <div className={styles.content__feedback} key={feedback.id}>
           <Card sx={{}}>
             <CardContent>
               <Typography gutterBottom variant="h6" component="div">

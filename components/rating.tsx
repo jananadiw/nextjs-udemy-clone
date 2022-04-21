@@ -12,9 +12,13 @@ type Props = {
 };
 
 const RatingComponent: React.FC<Props> = ({ feedbacks }) => {
+  const rateCount = (
+    feedbacks.reduce((a, b) => a + b.rating, 0) / feedbacks.length
+  ).toFixed(1);
+
   return (
     <div className={styles.rating}>
-      <p>{feedbacks.reduce((a, b) => a + b.rating, 0) / feedbacks.length}</p>
+      <p>{rateCount}</p>
       <Rating
         name="read-only"
         value={feedbacks.reduce((a, b) => a + b.rating, 0) / feedbacks.length}
