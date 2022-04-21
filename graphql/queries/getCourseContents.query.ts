@@ -12,7 +12,10 @@ export const getCourseContents = gql`
       requirements
       updated_at
       feedbacks {
+        id
         rating
+        user_name
+        content
       }
       instructors {
         name
@@ -22,6 +25,7 @@ export const getCourseContents = gql`
         name
         order
         course_content_lectures {
+          id
           content_id
           duration
           name

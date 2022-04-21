@@ -1,5 +1,5 @@
 export interface ICourse {
-  id: number;
+  id: string;
   name: string;
   cover_url: string;
   price: number;
@@ -18,7 +18,13 @@ export interface IInstructor {
 }
 
 export interface IFeedback {
+  id: number;
+  content: string;
+  course_id: string;
+  created_at: string;
   rating: number;
+  updated_at: string;
+  user_name: string;
 }
 
 export interface ICourseContents {
@@ -29,6 +35,7 @@ export interface ICourseContents {
 }
 
 export interface ICourseContentLecture {
+  id: number;
   name: string;
   duration: number;
 }
@@ -36,4 +43,13 @@ export interface ICourseContentLecture {
 export interface IDescription {
   long_description: string;
   who_is_for: string;
+}
+
+export interface IFeedbackInput {
+  content: string;
+  // course_id: string;
+  created_at: string;
+  rating: number;
+  // updated_at: string;
+  user_name: string;
 }
