@@ -31,9 +31,9 @@ const reviewInput = {} as IFeedbackInput;
 
 const FeedbackComponent: React.FC<Props> = (props: Props) => {
   const [formState, setFormState] = React.useState({
-    user_name: '',
-    rating: 0 || null,
-    content: '',
+    user_name: reviewInput.user_name,
+    rating: reviewInput.rating,
+    content: reviewInput.content,
   });
 
   // post a feedback
@@ -51,9 +51,12 @@ const FeedbackComponent: React.FC<Props> = (props: Props) => {
     console.log(formState.user_name, formState.rating, formState.content);
     await addFeedback({
       variables: {
-        user_name: event.target.user_name.value,
-        rating: event.target.rating.value,
-        content: event.target.content.value,
+        // user_name: event.target.user_name.value,
+        // rating: event.target.rating.value,
+        // content: event.target.content.value,
+        user_name: reviewInput.user_name,
+        rating: reviewInput.rating,
+        content: reviewInput.content,
       },
     });
   };
@@ -67,11 +70,12 @@ const FeedbackComponent: React.FC<Props> = (props: Props) => {
         <div>
           <Rating
             name="rating"
+            defaultValue={0}
             value={formState.rating}
             onChange={(e, newValue) =>
               setFormState({
                 ...formState,
-                rating: newValue,
+                rating: formState.rating && newValue,
               })
             }
           />
