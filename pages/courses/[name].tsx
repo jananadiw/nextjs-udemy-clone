@@ -109,7 +109,7 @@ const CourseDetails: React.FC<Props> = ({ courseDetails }) => {
 
         <FeedbackComponent feedbacks={feedback} courseId={courseIntro.id} />
       </div>
-      <footer className={commonStyles.footer}>Powered by FuturePlay</footer>
+      <footer className={commonStyles.footer}>Powered by Mock Udemy Courses</footer>
     </div>
   );
 };

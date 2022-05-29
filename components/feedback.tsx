@@ -22,44 +22,48 @@ import { addReview } from '../graphql/mutations/addReview.mutation';
 import useMutation from '@apollo/client';
 
 type Props = {
-  // submitReview: any;
   feedbacks: IFeedback[];
   courseId: string;
 };
 
-const reviewInput = {} as IFeedbackInput;
-
 const FeedbackComponent: React.FC<Props> = (props: Props) => {
-  const [formState, setFormState] = React.useState({
-    user_name: reviewInput.user_name,
-    rating: reviewInput.rating,
-    content: reviewInput.content,
+  const [formInput, setFormInput] = React.useState({
+    user_name: '',
+    rating: 0,
+    content: '',
+    course_id: props.courseId,
   });
 
   // post a feedback
   const [addFeedback] = ApolloReactHooks.useMutation(addReview, {
     variables: {
-      user_name: formState.user_name,
-      rating: formState.rating,
-      content: formState.content,
-      // reviewInput,
+      user_name: formInput.user_name,
+      rating: formInput.rating,
+      content: formInput.content,
+      course_id: props.courseId,
     },
   });
 
-  const submitReview = async (event: any) => {
-    event.preventDefault();
-    console.log(formState.user_name, formState.rating, formState.content);
-    await addFeedback({
-      variables: {
-        // user_name: event.target.user_name.value,
-        // rating: event.target.rating.value,
-        // content: event.target.content.value,
-        user_name: reviewInput.user_name,
-        rating: reviewInput.rating,
-        content: reviewInput.content,
-      },
-    });
+  const submitReview = async (e: any) => {
+    e.preventDefault();
+    console.log('formInput', formInput)
+    try {
+      await addFeedback({
+        variables: {
+          user_name: e.target.user_name.value,
+          rating: e.target.rating.value,
+          content: e.target.content.value,
+          course_id: props.courseId,
+        },
+      });
+    }
+    catch(error) {
+      console.log(error)
+      throw new Error('Error Adding Feedback')
+    }
+    setFormInput({ user_name: '', rating: 0, content: '', course_id: props.courseId,})
   };
+
 
   return (
     // Comment input component
@@ -70,13 +74,9 @@ const FeedbackComponent: React.FC<Props> = (props: Props) => {
         <div>
           <Rating
             name="rating"
-            defaultValue={0}
-            value={formState.rating}
+            value={formInput.rating}
             onChange={(e, newValue) =>
-              setFormState({
-                ...formState,
-                rating: formState.rating && newValue,
-              })
+              setFormInput({...formInput, rating: newValue || 0})
             }
           />
         </div>
@@ -84,11 +84,11 @@ const FeedbackComponent: React.FC<Props> = (props: Props) => {
           <p>Leave a review </p>
           <TextField
             fullWidth
-            value={formState.content}
+            value={formInput.content}
             name="content"
             onChange={(e) =>
-              setFormState({
-                ...formState,
+              setFormInput({
+                ...formInput,
                 content: e.target.value,
               })
             }
@@ -98,11 +98,11 @@ const FeedbackComponent: React.FC<Props> = (props: Props) => {
           <p> What is your name? </p>
           <TextField
             fullWidth
-            value={formState.user_name}
+            value={formInput.user_name}
             name="user_name"
             onChange={(e) =>
-              setFormState({
-                ...formState,
+              setFormInput({
+                ...formInput,
                 user_name: e.target.value,
               })
             }

@@ -28,7 +28,7 @@ export async function getStaticProps() {
   };
 }
 
-const Home: NextPage<Courses> = (props: Courses) => {
+const Home: NextPage<Courses> = (props) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -38,12 +38,12 @@ const Home: NextPage<Courses> = (props: Courses) => {
       </Head>
 
       <main className={styles.main}>
-        <h3 className={styles.title}>Welcome to FuturePlay courses</h3>
+        <h3 className={styles.title}>Welcome to Mock Udemy Courses courses</h3>
         <div className={styles.count}>{`${props.courses.length} results`}</div>
         <CourseList courseList={props.courses} />
       </main>
 
-      <footer className={styles.footer}>Powered by FuturePlay</footer>
+      <footer className={styles.footer}>Powered by Mock Udemy Courses</footer>
     </div>
   );
 };

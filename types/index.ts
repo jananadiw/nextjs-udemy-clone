@@ -20,10 +20,7 @@ export interface IInstructor {
 export interface IFeedback {
   id: number;
   content: string;
-  course_id: string;
-  created_at: string;
   rating: number;
-  updated_at: string;
   user_name: string;
 }
 
@@ -46,10 +43,8 @@ export interface IDescription {
 }
 
 export interface IFeedbackInput {
-  content: string;
-  // course_id: string;
-  created_at: string;
-  rating: number | null;
-  // updated_at: string;
   user_name: string;
+  rating: number;
+  content: string;
+  course_id: string;
 }
